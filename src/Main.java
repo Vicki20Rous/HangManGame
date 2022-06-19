@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        Scanner scanner = new Scanner(new File("\"C:\\Users\\vic86\\OneDrive\\Documents\\hangman-words.txt\""));
+        Scanner scanner = new Scanner(new File("C:/Users/vic86/OneDrive/Documents/hangman-words.txt"));
 
         List<String> words = new ArrayList<>();
         while (scanner.hasNext()) {
