@@ -9,21 +9,31 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        //Added file scanner to generate words from the separate file
-        Scanner scanner = new Scanner(new File("C:/Users/vic86/OneDrive/Documents/hangman-words.txt"));
-        //Added input scanner for players input
         Scanner scanner1 = new Scanner(System.in);
+        String word;
+//        String playAgain;
+        System.out.println("1 or 2 players?");
+        String players = scanner1.nextLine();
+        if (players.equals("1")) {
+            //Added file scanner to generate words from the separate file
+            Scanner scanner = new Scanner(new File("C:/Users/vic86/OneDrive/Documents/hangman-words.txt"));
+//            String againPlay = scanner1.next();
 
-        List<String> words = new ArrayList<>();
+            List<String> words = new ArrayList<>();
 
-        //Loop create to run words in file added
-        while (scanner.hasNext()) {
-            words.add(scanner.nextLine());
+            //Loop create to run words in file added
+            while (scanner.hasNext()) {
+                words.add(scanner.nextLine());
+            }
+            //Added random function to get a word from the list
+            Random rand = new Random();
+            word = words.get(rand.nextInt(words.size()));
         }
-        //Added random function to get a word from the list
-        Random rand = new Random();
-        String word = words.get(rand.nextInt(words.size()));
-        System.out.println(word);
+        else {
+            System.out.println("Player 1, Guess a letter: 1");
+            word = scanner1.nextLine();
+        }
+
 
         List<Character> guess = new ArrayList<>();
 
@@ -31,8 +41,31 @@ public class Main {
         while (true) {
             printWordProgress(word, guess);
 
-            System.out.println("+------+");
+            hangedMan(wrongAnswer);
+            if (wrongAnswer >= 5) {
+                System.out.println("You Lost!! The word is: " + word);
+                System.out.println("Do you want to play again? (yes or no)");
+//                playAgain = scanner1.next();
+                break;
+            }
 
+            printWordProgress(word, guess);
+            if(!getPlayerGuess(scanner1, word, guess)) {
+               wrongAnswer++;
+            }
+
+            if(printWordProgress(word, guess)) {
+                System.out.println("Yes! The secret word is " + word + " You win!!");
+                System.out.println("Do you want to play again? (yes or no)");
+//                playAgain = scanner1.next();
+                break;
+            }
+        }
+    }
+    //Created method to keep track of wrong answer
+    private static void hangedMan(int wrongAnswer) {
+        System.out.println("+------+");
+        try {
             if (wrongAnswer >= 1) {
                 System.out.println("O ");
             }
@@ -41,7 +74,7 @@ public class Main {
                 System.out.println("|");
             }
             if (wrongAnswer >= 3) {
-                    System.out.println("|");
+                System.out.println("|");
             }
 
             if (wrongAnswer >= 4) {
@@ -53,19 +86,16 @@ public class Main {
             }
             System.out.println("");
             System.out.println("");
-
-            printWordProgress(word, guess);
-            if(!getPlayerGuess(scanner1, word, guess)) {
-               wrongAnswer++;
-            }
-
-            if(printWordProgress(word, guess)) {
-                System.out.println("You win!!");
-                break;
-            }
+        } catch (Exception e) {
+            System.out.println("Invalid Input: Please a letter");
         }
 
+
+
     }
+
+
+
     //Created method to keep track of the input from the player
     private static boolean getPlayerGuess(Scanner scanner1, String word, List<Character> guess) {
         System.out.println("Guess a Letter: ");
