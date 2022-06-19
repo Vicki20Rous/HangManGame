@@ -27,20 +27,65 @@ public class Main {
 
         List<Character> guess = new ArrayList<>();
 
-        //Created a method to keep track of the player guesses
-        printWordProgress(word, guess);
+        int wrongAnswer = 0;
+        while (true) {
+            printWordProgress(word, guess);
 
-        //Creating Loop to get the input from the player
+            System.out.println("+------+");
+
+            if (wrongAnswer >= 1) {
+                System.out.println("O ");
+            }
+
+            if (wrongAnswer >= 2) {
+                System.out.println("|");
+            }
+            if (wrongAnswer >= 3) {
+                    System.out.println("|");
+            }
+
+            if (wrongAnswer >= 4) {
+                System.out.println("|");
+            }
+
+            if (wrongAnswer >= 5) {
+                System.out.println("===");
+            }
+            System.out.println("");
+            System.out.println("");
+
+            printWordProgress(word, guess);
+            if(!getPlayerGuess(scanner1, word, guess)) {
+               wrongAnswer++;
+            }
+
+            if(printWordProgress(word, guess)) {
+                System.out.println("You win!!");
+                break;
+            }
+        }
+
     }
+    //Created method to keep track of the input from the player
+    private static boolean getPlayerGuess(Scanner scanner1, String word, List<Character> guess) {
+        System.out.println("Guess a Letter: ");
+        String letterGuess = scanner1.nextLine();
+        guess.add(letterGuess.charAt(0));
+        return word.contains(letterGuess);
 
-    private static void printWordProgress(String word, List<Character> guess) {
+    }
+    //Created a method to keep track of the player guesses
+    private static boolean printWordProgress(String word, List<Character> guess) {
+        int correctAnswer = 0;
         for (int i = 0; i < word.length(); i++) {
             if (guess.contains(word.charAt(i))) {
                 System.out.print(word.charAt(i));
+                correctAnswer++;
             } else {
                 System.out.print("-");
             }
         }
         System.out.println();
+        return (word.length() == correctAnswer);
     }
 }
