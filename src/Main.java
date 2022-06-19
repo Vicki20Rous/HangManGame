@@ -87,7 +87,7 @@ public class Main {
             System.out.println("");
             System.out.println("");
         } catch (Exception e) {
-            System.out.println("Invalid Input: Please a letter");
+            System.out.println("Invalid Input: Please enter a letter");
         }
 
 
